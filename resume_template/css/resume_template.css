@@ -52,6 +52,7 @@ li {
 	margin-left: 120px;
 }
 .wrap header .contacts h3 {
+	width: 100%;
 	border-bottom: 5px solid #000;
 	font-size: 25px;
 	margin-bottom: .3em;
