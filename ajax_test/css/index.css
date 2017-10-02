@@ -1,0 +1,25 @@
+.container {
+  padding: 0;
+}
+.container li {
+  padding: 20px;
+  border: 1px solid pink;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+div {
+  text-align: center;
+}
+div .btn {
+  padding: 20px 30px;
+  border: 1px solid pink;
+  background-color: transparent;
+  color: pink;
+  border-radius: 5px;
+  outline: none;
+  cursor: pointer;
+}
+div .loading {
+  background-color: #ccc;
+  color: #fff;
+}
