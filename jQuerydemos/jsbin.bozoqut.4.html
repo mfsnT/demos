@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<!--
+Created using JS Bin
+http://jsbin.com
+
+Copyright (c) 2017 by mfsnT (http://jsbin.com/bozoqut/4/edit)
+
+Released under the MIT license: http://jsbin.mit-license.org
+-->
+<meta name="robots" content="noindex">
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <title>JS Bin</title>
+<style id="jsbin-css">
+ a {
+      text-decoration: none;
+    }
+    li {
+      list-style: none;
+    }
+    ul {
+      margin: 0;
+      padding: 0;
+    }
+    .menu {
+      background-color: #c7171e;
+      width: 200px;
+    }
+    .menu > ul .menu-list {
+      border-bottom: 1px dotted #de272e;
+      position: relative;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+    }
+    .menu > ul .menu-list > a {
+      margin: 0 10px;
+      padding: 10px;
+      color: #fff;
+      font-size: 14px;
+      display: block;
+    }
+    .menu > ul .menu-list span {
+      position: absolute;
+      top: 8px;
+      right: 10px;
+      color: #fff;
+    }
+    .menu > ul .menu-list .menu-detail-list {
+      position: absolute;
+      top: 0;
+      left: 200px;
+      border: 1px solid #ccc;
+      width: 210px;
+      display: none;
+    }
+    .menu > ul .menu-list .menu-detail-list::after {
+      content: '';
+      display: block;
+      clear: both;
+    }
+    .menu > ul .menu-list .menu-detail-list > li {
+      width: 55px;
+      padding: 10px 20px;
+      float: left;
+    }
+    .menu > ul .menu-list .menu-detail-list > li a {
+      font-size: 13px;
+      color: #333;
+    }
+</style>
+</head>
+<body>
+  <div class="menu">
+    <ul>
+      <li class="menu-list">
+        <a href="#">珠宝玉器</a>
+        <span>></span>
+        <ul class="menu-detail-list">
+          <li><a href="#">翡翠</a></li>
+          <li><a href="#">玉石</a></li>
+          <li><a href="#">宝石</a></li>
+          <li><a href="#">水晶</a></li>
+          <li><a href="#">玛瑙</a></li>
+          <li><a href="#">珍珠</a></li>
+          <li><a href="#">钻石</a></li>
+          <li><a href="#">琥珀</a></li>
+          <li><a href="#">和田</a></li>
+          <li><a href="#">琥珀</a></li>
+        </ul>
+      </li>
+      <li class="menu-list">
+        <a href="#">珠宝玉器</a>
+        <span>></span>
+        <ul class="menu-detail-list">
+          <li><a href="#">翡翠</a></li>
+          <li><a href="#">玉石</a></li>
+          <li><a href="#">宝石</a></li>
+          <li><a href="#">水晶</a></li>
+          <li><a href="#">玛瑙</a></li>
+          <li><a href="#">珍珠</a></li>
+        </ul>
+      </li>
+      <li class="menu-list">
+        <a href="#">珠宝玉器</a>
+        <span>></span>
+        <ul class="menu-detail-list">
+          <li><a href="#">翡翠</a></li>
+          <li><a href="#">玉石</a></li>
+          <li><a href="#">宝石</a></li>
+          <li><a href="#">水晶</a></li>
+        </ul>
+      </li>
+      <li class="menu-list">
+        <a href="#">珠宝玉器</a>
+        <span>></span>
+        <ul class="menu-detail-list">
+          <li><a href="#">翡翠</a></li>
+          <li><a href="#">玉石</a></li>
+          <li><a href="#">宝石</a></li>
+          <li><a href="#">水晶</a></li>
+          <li><a href="#">玛瑙</a></li>
+          <li><a href="#">珍珠</a></li>
+        </ul>
+      </li>
+      <li class="menu-list">
+        <a href="#">珠宝玉器</a>
+        <span>></span>
+        <ul class="menu-detail-list">
+          <li><a href="#">翡翠</a></li>
+          <li><a href="#">玉石</a></li>
+          <li><a href="#">宝石</a></li>
+          <li><a href="#">水晶</a></li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+<script id="jsbin-javascript">
+$(function () {
+  var $menu = $('.menu');
+  var $menu_detail_list = $('.menu-detail-list');
+
+  $menu.on('mouseenter', 'li.menu-list', function (e) {
+    $menu_detail_list.eq($(this).index()).show();
+  }).on('mouseleave', 'li.menu-list', function () {
+    $menu_detail_list.hide();
+  });
+
+});
+</script>
+</body>
+</html>
