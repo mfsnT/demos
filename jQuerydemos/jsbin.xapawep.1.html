@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<!--
+Created using JS Bin
+http://jsbin.com
+
+Copyright (c) 2017 by mfsnT (http://jsbin.com/xapawep/1/edit)
+
+Released under the MIT license: http://jsbin.mit-license.org
+-->
+<meta name="robots" content="noindex">
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <title>JS Bin</title>
+</head>
+<body>
+ <select name="x" class="select">
+   <option selected>请选择</option>
+   <option value="x">x</option>
+   <option value="xx">xx</option>
+   <option value="xxx">xxx</option>
+ </select>
+ <span class="show-selected-value"></span>
+<script id="jsbin-javascript">
+$(function () {
+  var $select = $('.select');
+  var $show_selected_value = $('.show-selected-value');
+
+  $select.on('change', function () {
+    console.log($select.val())
+    $show_selected_value.text($select.val());
+  })
+});
+</script>
+</body>
+</html>
