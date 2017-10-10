@@ -1,0 +1,79 @@
+ul {
+  padding: 0;
+  margin: 0;
+}
+li {
+  list-style: none;
+}
+a {
+  text-decoration: none;
+}
+.slider {
+  width: 480px;
+  height: 360px;
+  overflow: hidden;
+  position: relative;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+.slider .imgs-container a {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: none;
+}
+.slider .imgs-container .active-img {
+  display: block;
+  z-index: 2;
+}
+.slider .imgs-container a img {
+  width: 100%;
+
+}
+.slider .arrow {
+  display: block;
+  text-align: center;
+  line-height: 40px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  color: #fff;
+  background-color: rgba(0, 0, 0, .3);
+  position: absolute;
+  top: 50%;
+  margin-top: -15px;
+  z-index: 3;
+  cursor: pointer;
+}
+.slider .prev-btn {
+  left: 10px;
+}
+.slider .next-btn {
+  right: 10px;
+}
+.slider .bullet {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  z-index: 3;
+}
+.slider .bullet li {
+  display: inline-block;
+  width: 30px;
+  height: 5px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  cursor: pointer;
+}
+.slider .bullet li:not(:last-child) {
+  margin-right: 5px;
+}
+.slider .bullet .active {
+  background-color: #ccc;
+}
