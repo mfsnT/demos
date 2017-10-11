@@ -19,7 +19,7 @@ $(function () {
   // 通过jsonp的方式向后端获取数据
   function load() {
     $.ajax({
-      url: 'http://platform.sina.com.cn/slide/album_tech',
+      url: 'https://platform.sina.com.cn/slide/album_tech',
       dataType: 'jsonp',
       jsonp: 'jsoncallback',
       data: {
