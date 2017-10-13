@@ -1,0 +1,22 @@
+.ct {
+  width: 1200px;
+  margin: 0 auto;
+}
+.ct .img-row::after {
+  content: "";
+  display: block;
+  clear: both;
+}
+.ct .img-row {
+  margin-bottom: 5px;
+}
+.ct .img-row .img-box {
+  float: left;
+}
+.ct .img-row .img-box img {
+  margin: 0 5px;
+}
+.bottom-block {
+  height: 50px;
+  visibility: hidden;
+}
