@@ -1,82 +1,116 @@
 $(function () {
-  var $slider = $('.slider');
-  var $imgs_ct = $('.imgs-container');
-  var $imgs = $imgs_ct.children();
-  var $first_img = $imgs.first().clone();
-  var $prev_btn = $('.prev-btn');
-  var $next_btn = $('.next-btn');
-  var $bullet = $('.bullet');
-  var $bullet_btns = $bullet.children();
-  var width = $imgs_ct.width();
-  var index = 0;
-  var btn_clock = false;
-  var timmer = null;
-  var imgs_len = $imgs.length;
-
-  $imgs_ct.append($first_img);
-  $imgs_ct.css('width', (imgs_len + 1) * width);
-
-  $next_btn.on('click', function () {
-    if (btn_clock) {
-      return;
-    }
-
-    index++;
-    slider();
-  });
-
-  $prev_btn.on('click', function () {
-    if (btn_clock) {
-      return;
-    }
-
-    index--;
-    slider();
-  });
-
-  $bullet.on('click', 'li', function () {
-    index = $(this).index();
-    slider();
-  });
-
-  $slider.on('mouseenter', function () {
-    window.clearInterval(timmer);
-  }).on('mouseleave', function () {
-    timmer = window.setInterval(function () {
-      $next_btn.trigger('click');
-    }, 2000)
-  }).trigger('mouseleave');
-
-  function slider() {
-    btn_clock = true;
-
-    if (index === -1) {
-      $imgs_ct.css('left', - imgs_len * width);
-      $imgs_ct.animate({left: - (imgs_len - 1) * width}, function () {
-        btn_clock = false;
-        index = 3;
-        showActiveBtn(index);
-      });
-
-      return;
-    } else if (index === imgs_len) {
-      $imgs_ct.animate({left: - index * width}, function () {
-        $(this).css('left', 0);
-        btn_clock = false;
-        index = 0;
-        showActiveBtn(index);
-      });
-
-      return;
-    }
-
-    $imgs_ct.animate({left: - index * width}, function () {
-      btn_clock = false;
-      showActiveBtn(index);
-    });
+  function Slider($ct) {
+    this.$ct = $ct;
+    this.index = 0;
+    this.btn_clock = false;
+    this.timmer = null;
+    this.init();
   }
 
-  function showActiveBtn (index) {
-    $bullet_btns.removeClass('active').eq(index).addClass('active');
+  Slider.prototype = {
+    init: function () {
+      var $imgs_ct = this.$imgs_ct = this.$ct.children('.imgs-container');
+      var $imgs = $imgs_ct.children();
+      var $first_img = $imgs.first().clone();
+      var imgs_len = this.imgs_len = $imgs.length;
+      var width = this.width = $imgs_ct.width();
+      var $bullet = this.$bullet = this.$ct.children('.bullet');
+      this.$next_btn = this.$ct.children('.next-btn');
+      this.$prev_btn = this.$ct.children('.prev-btn');
+      this.$bullet_btns = $bullet.children();
+
+      $imgs_ct.append($first_img);
+      $imgs_ct.css('width', (imgs_len + 1) * width);
+
+      this.bind();
+    },
+    bind: function () {
+      var self = this;
+      var $next_btn = this.$next_btn;
+      var $prev_btn = this.$prev_btn;
+      var $ct = this.$ct;
+      var $bullet = this.$bullet;
+
+      $next_btn.on('click', function () {
+        if (self.btn_clock) {
+          return;
+        }
+
+        self.index++;
+        self.slider();
+      });
+
+      $prev_btn.on('click', function () {
+        if (self.btn_clock) {
+          return;
+        }
+
+        self.index--;
+        self.slider();
+      });
+
+      $bullet.on('click', 'li', function () {
+        if ($(this).hasClass('active')) {
+          return;
+        }
+        
+        self.index = $(this).index();
+        self.slider();
+      });
+
+      $ct.on('mouseenter', function () {
+        window.clearInterval(self.timmer);
+      }).on('mouseleave', function () {
+        self.timmer = window.setInterval(function () {
+          $next_btn.trigger('click');
+        }, 2000)
+      }).trigger('mouseleave');
+    },
+    slider: function () {
+      var self = this;
+      var $imgs_ct = this.$imgs_ct;
+      var width = this.width;
+      var imgs_len = this.imgs_len;
+      self.btn_clock = true;
+
+      if (self.index === -1) {
+       $imgs_ct.css('left', - imgs_len * width);
+        $imgs_ct.animate({left: - (imgs_len - 1) * width}, function () {
+          self.btn_clock = false;
+          self.index = 3;
+          self.showActiveBtn(self.index);
+        });
+
+        return;
+      } else if (self.index === imgs_len) {
+        $imgs_ct.animate({left: - self.index * width}, function () {
+          $(this).css('left', 0);
+          self.btn_clock = false;
+          self.index = 0;
+          self.showActiveBtn(self.index);
+        });
+
+        return;
+      }
+
+      $imgs_ct.animate({left: - self.index * width}, function () {
+        self.btn_clock = false;
+        self.showActiveBtn(self.index);
+      });
+    },
+    showActiveBtn: function (index) {
+      this.$bullet_btns.removeClass('active').eq(index).addClass('active');
+    }
   }
+
+  var slider = (function () {
+    return {
+      init: function ($ct) {
+        $ct.each(function () {
+          new Slider($(this));
+        })
+      }
+    }
+  })();
+  slider.init($('.slider'))
 });
