@@ -48,7 +48,7 @@ $(function () {
         if ($(this).hasClass('active')) {
           return;
         }
-        
+
         self.index = $(this).index();
         self.slider();
       });

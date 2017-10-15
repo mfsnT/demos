@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+  <style type="text/css">
+    a {
+      text-decoration: none;
+      color: #000;
+    }
+    .tab {
+      border: 1px solid #ccc;
+    }
+    .tab .tab-btns {
+      border-bottom: 1px solid #ccc;
+      display: flex;
+      height: 30px;
+      line-height: 30px;
+      text-align: center;
+    }
+    .tab .tab-btns a {
+      flex-grow: 1;
+    }
+    .tab .tab-btns a:not(:last-child) {
+      border-right: 1px solid #ccc;
+    }
+    .tab .tab-btns .active-btn {
+      background-color: #eee;
+    }
+    .tab .tab-content {
+      height: 200px;
+      overflow: hidden;
+      position: relative;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+    }
+    .tab .tab-content .wrap {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+    .tab .tab-content .wrap .content {
+      height: 100%;
+    }
+    .tab .tab-content .wrap > div:first-child {
+      background-color: red;
+    }
+    .tab .tab-content .wrap > div+div {
+      background-color: green;
+    }
+    .tab .tab-content .wrap > div:last-child {
+      background-color: blue;
+    }
+  </style>
+</head>
+<body>
+  <div class="tab">
+     <div class="tab-btns">
+       <a href="#" class="active-btn">tab1</a>
+       <a href="#">tab2</a>
+       <a href="#">tab3</a>
+     </div>
+     <div class="tab-content">
+       <div class="wrap">
+         <div class="content">tab1</div>
+         <div class="content">tab2</div>
+         <div class="content">tab3</div>
+       </div>
+     </div>
+   </div>
+   <div class="tab">
+     <div class="tab-btns">
+       <a href="#" class="active-btn">tab1</a>
+       <a href="#">tab2</a>
+       <a href="#">tab3</a>
+     </div>
+     <div class="tab-content">
+       <div class="wrap">
+         <div class="content">tab1</div>
+         <div class="content">tab2</div>
+         <div class="content">tab3</div>
+       </div>
+     </div>
+   </div>
+   <div class="tab">
+     <div class="tab-btns">
+       <a href="#" class="active-btn">tab1</a>
+       <a href="#">tab2</a>
+       <a href="#">tab3</a>
+     </div>
+     <div class="tab-content">
+       <div class="wrap">
+         <div class="content">tab1</div>
+         <div class="content">tab2</div>
+         <div class="content">tab3</div>
+       </div>
+     </div>
+   </div>
+   <script type="text/javascript">
+    function Tab($ct) {
+      this.$ct = $ct;
+
+      this.init();
+    }
+
+    Tab.prototype = {
+      init: function () {
+        this.$tab_btns = this.$ct.children('.tab-btns');
+        this.$content = this.$ct.find('.wrap');
+
+        this.bind();
+      },
+      bind: function () {
+        var $tab_btns = this.$tab_btns;
+        var $content = this.$content;
+
+        $tab_btns.on('click', 'a', function () {
+          var index = $(this).index();
+
+          $tab_btns.children().removeClass('active-btn')
+               .eq(index).addClass('active-btn');
+
+          $content.animate({top: -$content.innerHeight() * index + 'px'}, 800)
+        });
+      }
+    }
+
+    var tab = (function () {
+      return {
+        init: function ($ct) {
+          $ct.each(function () {
+            new Tab($(this));
+          });
+        }
+      }
+    })();
+
+    tab.init($('.tab'));
+   </script>
+</body>
+</html>

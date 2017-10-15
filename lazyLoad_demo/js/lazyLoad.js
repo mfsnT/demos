@@ -1,42 +1,63 @@
 $(function () {
-  var clock;
-  var $imgs = $('.img-list a img');
 
-  function isVisible($node) {
-    var windowHeight = $(window).height();
-    var scrollTopHeight = $(window).scrollTop();
-    var nodeOffsetTop = $node.offset().top;
+  function Exposure($node, handle) {
+    this.$node = $node;
+    this.timmer = null;
 
-    if (nodeOffsetTop > scrollTopHeight && nodeOffsetTop < windowHeight + scrollTopHeight) {
-      return true;
-    }
-
-    return false;
+    this.bind(handle);
   }
 
-  function isLoad($node) {
-    return $node.attr('src') === $node.attr('data-src');
-  }
+  Exposure.prototype = {
+    bind: function (handle) {
+      var self = this;
+      var $node = this.$node;
 
-  function showImg($node) {
-    $node.attr('src', $node.attr('data-src'));
-  }
+      $(window).on('scroll', function () {
+        if (self.timmer) {
+          window.clearTimeout(self.timmer);
+        }
 
-  function lazyLoad() {
-    $imgs.each(function () {
-      if (isVisible($(this)) && !isLoad($(this))) {
-        showImg($(this));
+        self.timmer = window.setTimeout(function () {
+          if (self.isVisible($node) && self.isFirstShow($node)) {
+            handle($node);
+          }
+        }, 500);
+      }).trigger('scroll');
+    },
+    isVisible: function ($node) {
+      var windowHeight = $(window).height();
+      var scrollTopHeight = $(window).scrollTop();
+      var nodeOffsetTop = $node.offset().top;
+
+      if (nodeOffsetTop > scrollTopHeight && nodeOffsetTop < windowHeight + scrollTopHeight) {
+        return true;
       }
-    });
+
+      return false;
+    },
+    isFirstShow: function ($node) {
+      if (!$node.attr('data-isFirstShow')) {
+        $node.attr('data-isFirstShow', 'true');
+        return true;
+      } else if ($node.attr('data-isFirstShow') === 'true') {
+        $node.attr('data-isFirstShow', 'false');
+      }
+
+      return false;
+    }
   }
 
-  $(window).on('scroll', function () {
-    if (clock) {
-      window.clearTimeout(clock);
+  var exposure = (function () {
+    return {
+      init: function ($nodes, handle) {
+        $nodes.each(function () {
+          new Exposure($(this), handle);
+        });
+      }
     }
+  })();
 
-    clock = window.setTimeout(function () {
-      lazyLoad();
-    }, 500);
-  }).trigger('scroll');
+  exposure.init($('.img-collection a img'), function ($img) {
+    $img.attr('src', $img.attr('data-src'));
+  });
 });
