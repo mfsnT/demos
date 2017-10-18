@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <link href="https://cdn.bootcss.com/normalize/7.0.0/normalize.min.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="src/css/index.css">
+</head>
+<body>
+  <!-- 轮播 -->
+  <div class="slider">
+    <div class="imgs-container">
+      <a href="#">
+        <img src="http://cdn.jirengu.com/book.jirengu.com/img/2.jpg">
+      </a>
+      <a href="#">
+        <img src="http://cdn.jirengu.com/book.jirengu.com/img/3.jpg">
+      </a>
+      <a href="#">
+        <img src="http://cdn.jirengu.com/book.jirengu.com/img/4.jpg">
+      </a>
+      <a href="#">
+        <img src="http://cdn.jirengu.com/book.jirengu.com/img/5.jpg">
+      </a>
+    </div>
+    <div class="prev-btn arrow"><</div>
+    <div class="next-btn arrow">></div>
+    <ul class="bullet">
+      <li class="active"></li>
+      <li></li>
+      <li></li>
+      <li></li>
+    </ul>
+  </div>
+  <!-- 瀑布流 -->
+  <div class="waterfall">
+    <ul class="imgs">
+      <!-- 用于计算列数，隐藏 -->
+      <li class="imgs-item hide"></li>
+    </ul>
+    <!-- 用于判断是否到了网页的底部，隐藏 -->
+    <div class="bottom-block"><button class="loadmore">加载更多</button></div>
+  </div>
+  <script type="text/javascript" src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+  <script type="text/javascript" src="dist/js/main.min.js"></script>
+</body>
+</html>
