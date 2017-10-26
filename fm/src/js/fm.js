@@ -139,7 +139,7 @@ $(function () {
 
       $('body').on('click', function () {
         $channel_list.hide()
-        $vol_panel.removeClass('show-volume-bar')
+        $vol_panel.removeClass('show-volume-panel')
       })
 
       $channel_list.on('click', 'li', function () {
@@ -204,7 +204,7 @@ $(function () {
       $vol_btn.on('click', function (e) {
         e.preventDefault()
         e.stopPropagation()
-        $vol_bar.toggleClass('show-volume-panel')
+        $vol_panel.toggleClass('show-volume-panel')
       })
 
       $vol_bar.on('click', function (e) {
