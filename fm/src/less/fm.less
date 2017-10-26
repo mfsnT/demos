@@ -1,0 +1,341 @@
+ul {
+  padding: 0;
+}
+
+li {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+#app {
+  margin: 0 auto;
+  padding: 0 1px;
+  background-color: #ddd5e2;
+  width: 400px;
+
+  .wrap {
+    background-color: #e6e6e6;
+    border-radius: 15px 15px 30px 30px;
+
+    // 封面
+    .cover {
+      margin-bottom: 30px;
+      height: 250px;
+      overflow: hidden;
+
+      img {
+        width: 100%;
+        border-radius: 15px 15px 0 0;
+      }
+    }
+    
+    // 歌曲信息
+    .song-message {
+      text-align: center;
+      padding: 0 20px;
+      position: relative;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+
+      h3 {
+        margin: 0;
+        line-height: 1.3;
+        color: #442d4f;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      
+      // 歌名
+      .song-title {
+        font-size: 30px;
+      }
+      
+      // 歌手
+      .singer {
+        font-size: 20px;
+      }
+      
+      // 歌词
+      .lyric-ct {
+        overflow: auto;
+        height: 60px;
+        padding: 10px 0;
+        margin-left: 17px;
+        position: relative;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+
+        p {
+          margin: 0;
+          line-height: 1.5;
+          margin: 10px 0;
+          color: #442d4f;
+          font-size: 15px;
+        }
+
+        .current-lyric {
+          font-weight: bold;
+        }
+      }
+
+      // 遮盖歌词容器的滑动条
+      &::after {
+          content: "";
+          display: block;
+          background-color: #e6e6e6;
+          width: 17px;
+          height: 80px;
+          position: absolute;
+          right: 20px;
+          top: 65px;
+          z-index: 6;
+        }
+    }
+
+    .audio-player {
+      padding: 0 30px;
+
+      // 播放条
+      .total-progress-bar {
+        height: 12px;
+        background-color: #bcb6bf;
+        border-radius: 6px;
+        position: relative;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        cursor: pointer;
+
+        .play-progress-bar {
+          width: 0;
+          height: 100%;
+          position: absolute;
+          top: 0;
+          left: 0;
+          background-color: #675570;
+          z-index: 3;
+          border-radius: inherit;
+        }
+      }
+      
+      // 按钮组
+      .btn-groups {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 40px 0;
+        
+        // 频道
+        .channel {
+          position: relative;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          left: 0;
+
+          a {
+            i {
+              font-size: 35px;
+              color: #bcb6bf;
+            }
+          }
+
+          // 频道列表
+          .channel-list {
+            position: absolute;
+            width: 120px;
+            left: 10px;
+            bottom: 100%;
+            padding: 10px 0;
+            background-color: #efefef;
+            z-index: 5;
+            filter: drop-shadow(0 0 1px #bcb6bf);
+            display: none;
+
+            .active-channel {
+              color: #a49da8;
+            }
+
+            &-item {
+              padding: 10px 15px;
+              cursor: pointer;
+            }
+
+            &::after {
+              content: "";
+              display: block;
+              width: 0;
+              height: 0;
+              position: absolute;
+              left: 0;
+              bottom: -15px;
+              border-top: 15px solid #efefef;
+              border-right: 12px solid transparent;
+            }
+          }
+        }
+         
+        // 按钮
+        .audio-btns {
+          display: flex;
+          align-items: center;
+          position: relative;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          left: 0;
+
+          a {
+            display: block;
+            text-align: center;
+            border-radius: 50%;
+            color: #fff;
+            overflow: hidden;
+          }
+          
+          // 上一首
+          .prev {
+            width: 45px;
+            height: 45px;
+            line-height: 45px;
+            background-color: #bcb6bf;
+
+            i {
+              font-size: 35px;
+            }
+          }
+          
+          // 播放/暂停
+          .play {
+            width: 60px;
+            height: 60px;
+            line-height: 60px;
+            background-color: #675570;
+            margin: 0 15px;
+
+            i {
+              position: relative;
+              top: 0;
+            }
+            .icon-play {
+              font-size: 39px;
+              left: 4px;
+            }
+
+            .icon-pause {
+              font-size: 35px;
+              left: 0.5px;
+            }
+          }
+          
+          // 下一首
+          .next {
+            width: 45px;
+            height: 45px;
+            line-height: 45px;
+            background-color: #bcb6bf;
+            transform: rotate(180deg);
+
+            i {
+              font-size: 35px;
+            }
+          }
+
+          .prev:hover,
+          .next:hover {
+            background-color: #675570;
+          }
+
+          // 信息提示
+          .tips {
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: none;
+            width: 350px;
+            text-align: center;
+            font-size: 20px;
+            color: #442d4f;
+          }
+        }
+        
+        // 音量调节
+        .volume {
+          position: relative;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          left: 0;
+
+          a{
+            i {
+              font-size: 35px;
+              color: #bcb6bf;
+            }
+          }
+          
+          // 音量面板
+          .volume-panel {
+            width: 150px;
+            padding: 10px;
+            background-color: #fff;
+            position: absolute;
+            right: 10px;
+            bottom: 102%;
+            display: none;
+
+            &::after {
+              content: "";
+              display: block;
+              width: 0;
+              height: 0;
+              position: absolute;
+              right: 0;
+              bottom: -8px;
+              border-right: 5px solid #fff;
+              border-bottom: 8px solid transparent;
+            }
+            
+            // 音量条
+            .volume-bar {
+              height: 8px;
+              background-color: #bcb6bf;
+              border-radius: 4px;
+              position: relative;
+              top: 0;
+              right: 0;
+              bottom: 0;
+              left: 0;
+              cursor: pointer;
+              
+              // 当前音量条
+              .volume-bar-current {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                border-radius: inherit;
+                background-color: #675570;
+              }
+            }
+          }
+
+          .show-volume-panel {
+            display: block;
+          }
+        }
+      }
+    }
+  }
+}

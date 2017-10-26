@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="referrer" content="never">
+  <title>我的FM</title>
+  <link rel="stylesheet" type="text/css" href="https://at.alicdn.com/t/font_410472_m18uh9qzj1pmbo6r.css">
+  <link href="https://cdn.bootcss.com/normalize/7.0.0/normalize.min.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="dist/asset/fm-74c3dafe39.min.css">
+  <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+</head>
+<body>
+  <main id="app">
+    <div class="wrap">
+      <!-- 封面 -->
+      <div class="cover">
+        <img src="dist/imgs/musicicont2.png">
+      </div>
+      <!-- 歌曲信息 -->
+      <div class="song-message">
+        <!-- 歌名 -->
+        <h3 class="song-title"></h3>
+        <!-- 歌手 -->
+        <h3 class="singer"></h3>
+        <!-- 歌词 -->
+        <div class="lyric-ct"></div>
+      </div>
+      <!-- 播放器 -->
+      <div class="audio-player">
+        <audio></audio>
+        <!-- 进度条 -->
+        <div class="total-progress-bar">
+          <!-- 当前播放进度条 -->
+          <div class="play-progress-bar"></div>
+        </div>
+        <!-- 按钮组 -->
+        <div class="btn-groups">
+          <!-- 频道选择 -->
+          <div class="channel">
+            <a href="#"><i class="iconfont  icon-music1"></i></a>
+            <!-- 频道菜单 -->
+            <ul class="channel-list">
+              <li class="channel-list-item active-channel" data-channel-id="public_tuijian_rege">热门</li>
+              <li class="channel-list-item" data-channel-id="public_shiguang_80hou">八零MHZ</li>
+              <li class="channel-list-item" data-channel-id="public_yuzhong_yueyu">粤语MHZ</li>
+              <li class="channel-list-item" data-channel-id="public_shiguang_90hou">九零MHZ</li>
+              <li class="channel-list-item" data-channel-id="public_yuzhong_oumei">欧美MHZ</li>
+              <li class="channel-list-item" data-channel-id="public_shiguang_70hou">怀旧MHZ</li>
+              <li class="channel-list-item" data-channel-id="public_shiguang_jingdianlaoge">经典MHZ</li>
+            </ul>
+          </div>
+          <!-- 按钮 -->
+          <div class="audio-btns">
+            <!-- 上一首 -->
+            <a class="prev" href="#">
+              <i class="iconfont icon-fast-rewind"></i>
+            </a>
+            <!-- 播放/暂停 -->
+            <a class="play" href="#" data-isPlaying="false">
+              <i class="iconfont icon-play"></i>
+            </a>
+            <!-- 下一首 -->
+            <a class="next" href="#">
+              <i class="iconfont icon-fast-rewind"></i>
+            </a>
+            <!-- 信息提示 -->
+            <div class="tips"></div>
+          </div>
+          <!-- 音量调节 -->
+          <div class="volume">
+            <a href="#"><i class="iconfont icon-speaker"></i></a>
+            <!-- 音量面板 -->
+            <div class="volume-panel">
+              <!-- 音量条 -->
+              <div class="volume-bar">
+                <!-- 当前音量条 -->
+                <div class="volume-bar-current"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <script type="text/javascript" src="dist/asset/fm-5ce7ea5fdf.min.js"></script>
+</body>
+</html>
