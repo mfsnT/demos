@@ -81,7 +81,7 @@ $(function () {
 
           setTimeout(function () {
             _this.shouldUpdate = true
-          }, 500)
+          }, 750)
         }
       }).on('playing', function () {
         $i.removeClass('icon-play').addClass('icon-pause')
@@ -126,7 +126,7 @@ $(function () {
           index++
         }
 
-        _this.lyric_ct_scroll_height -= (_this.$lyric_collection.eq(index).outerHeight(true) - 10)
+        _this.lyric_ct_scroll_height -= _this.$lyric_collection.eq(index).outerHeight(true) - 10
       })
 
 
