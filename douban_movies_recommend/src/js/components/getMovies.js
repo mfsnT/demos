@@ -56,11 +56,11 @@ GetMovies.prototype = {
       }
 
       if (keyword === 'top250') {
-        option.url = 'http://api.douban.com/v2/movie/top250'
+        option.url = 'https://api.douban.com/v2/movie/top250'
       } else if (keyword === 'us_box') {
-        option.url = 'http://api.douban.com/v2/movie/us_box'
+        option.url = 'https://api.douban.com/v2/movie/us_box'
       } else if (keyword === 'search') {
-        option.url = 'http://api.douban.com/v2/movie/search'
+        option.url = 'https://api.douban.com/v2/movie/search'
         option.data.q = this.current_query_str
       }
 
