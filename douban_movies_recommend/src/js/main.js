@@ -26,12 +26,13 @@ $(function () {
     $btn_group.on('click', 'li', function () {
       var $this = $(this)
       var index = $this.index()
+      var flag = $north_america_ct.html() ? false : true
 
       if ($this.hasClass('active-btn')) {
         return
       }
 
-      if (index === 1 && $north_america_ct.html() ? false : true) {
+      if (index === 1 && flag) {
         $north_america.children('.update-icon').addClass('rotate')
         north_america_movies.getMovies('us_box', function ($icon) {
           $icon.hide()

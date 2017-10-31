@@ -7,7 +7,7 @@ function GetMovies($ct) {
   this.canGetMovies = true
 
   if ($ct.parent().hasClass('search')) {
-    var $search_bar = $ct.siblings('.search-bar')
+    var $search_bar = this.$search_bar = $ct.siblings('.search-bar')
     this.$input = $search_bar.children('.input')
     this.$btn = $search_bar.children('.search-btn')
     this.current_query_str = ''
@@ -22,6 +22,7 @@ GetMovies.prototype = {
     var $btn = this.$btn
     var $icon = this.$icon
     var $ct = this.$ct
+    var $search_bar = this.$search_bar
     var _this = this
 
     $btn.on('click', function () {
@@ -29,6 +30,11 @@ GetMovies.prototype = {
         var val = $input.val()
 
         if (/^\s*$/.test(val)) {
+          $search_bar.addClass('showTips')
+          setTimeout(function () {
+            $search_bar.removeClass('showTips')
+          }, 1200)
+
           return
         }
 
