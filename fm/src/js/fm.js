@@ -360,7 +360,7 @@ $(function () {
       this.$cover[0].src = song_msg.cover
       this.$song_title.text(song_msg.title)
       this.lyric_ct_scroll_height = 0
-      this.$lyric_ct.animate({scrollTop: 0})
+      this.$lyric_ct.scrollTop(0)
       this.shouldPlayNextSong = false
     },
     // 发出信息提示
