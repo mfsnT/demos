@@ -34,6 +34,7 @@ Exposure.prototype = {
       $target.trigger('scroll')
     }
 
+    // 判断目标是否出现在容器上
     function isExposure($target, $target_ct) {
       var target_offset_top = $target.offset().top
       var target_ct_height = $target_ct.height()

@@ -6,6 +6,7 @@ function GetMovies($ct) {
   this.$icon = $ct.siblings('.update-icon')
   this.canGetMovies = true
 
+  // 对于搜索区域要绑定事件
   if ($ct.parent().hasClass('search')) {
     var $search_bar = this.$search_bar = $ct.siblings('.search-bar')
     this.$input = $search_bar.children('.input')
@@ -49,6 +50,7 @@ GetMovies.prototype = {
       }
     })
   },
+  // 获取电影
   getMovies: function (keyword, callback) {
     if (this.canGetMovies) {
       this.canGetMovies = false
@@ -77,9 +79,11 @@ GetMovies.prototype = {
         _this.start += 20
         _this.canGetMovies = true
       }).fail(function () {
-        console.log('出错了')
+        _this.$ct.append('<li style="text-align:center;margin-top:1rem;">获取数据失败，请检查网络</li>')
+        $icon.removeClass('rotate')
       })
 
+      // 处理数据，放到页面上
       function render($ct, data) {
         var fragment = document.createDocumentFragment()
         var template = '<li class="movie-list-item"><a>'
