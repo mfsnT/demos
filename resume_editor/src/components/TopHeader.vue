@@ -7,7 +7,7 @@
         <el-button type="primary" round @click="openLoginPop" v-if="!isLogined">登陆</el-button>
         <el-button type="primary" round @click="openRegisterPop" v-if="!isLogined">注册</el-button>
         <el-button type="primary" round v-if="isLogined" key="logout" @click="logOut">退出登陆</el-button>
-        <el-button type="primary" round v-if="isLogined" key="save">保存</el-button>
+        <el-button type="primary" round v-if="isLogined" key="save" @click="saveFormData">保存</el-button>
         <el-button type="primary" round>预览</el-button>
       </div>
       <div class="layer-mask" v-show="shouldShowPop">
@@ -23,7 +23,7 @@
                   <label for="login-pwd">密码：</label>
                   <input type="password" id="login-pwd" v-model="loginData.password">
                 </div>
-                <el-button type="primary" @click="logIn">登陆</el-button>
+                <el-button type="primary" @click="logIn(false)">登陆</el-button>
                 <el-button type="primary" native-type="reset">重置</el-button>
               </form>
             </el-tab-pane>
@@ -95,13 +95,23 @@ export default {
 
       user.setUsername(this.formData.username)
       user.setPassword(this.formData.password)
-      user.signUp().then(usermessage => console.log(usermessage))
+      user.signUp().then(() => {
+        this.loginData.username = this.formData.username
+        this.loginData.password = this.formData.password
+        this.logIn(true)
+      })
     },
-    logIn() {
+    logIn(isFirstTimeLogin) {
       AV.User.logIn(this.loginData.username, this.loginData.password).then(usermessage => {
                 this.closePop()
                 this.currentUser = this.getCurrentUser()
                 this.isLogined = true
+
+                if (isFirstTimeLogin) {
+                  return
+                }
+
+                this.getFormData()
              },
              error => console.log(error))
     },
@@ -112,7 +122,50 @@ export default {
     },
     getCurrentUser() {
       let {id, createdAt, attributes: {username}} = AV.User.current()
-      return {id, createdAt, username}
+      return {id, createdAt, username, hasSavedData: false}
+    },
+    saveFormData() {
+      const Todo = AV.Object.extend('Todo')
+      let data = JSON.stringify(this.$store.state.profile)
+      let id = this.currentUser.id
+      
+      if (this.currentUser.hasSavedData) {
+        const todo = AV.Object.createWithoutData('Todo', this.currentUser.todoId)
+
+        todo.set('content', {data})
+        todo.save().then(() => console.log('ok'), (meg) => console.log(meg))
+      } else {
+        const todo = new Todo()
+        const acl = new AV.ACL()
+
+        acl.setReadAccess(AV.User.current(), true)
+        acl.setWriteAccess(AV.User.current(), true)
+        
+        todo.setACL(acl)
+        todo.set('content', {data})
+        todo.set('id', id)
+        todo.save().then(() => {
+          console.log('save')
+          this.currentUser.hasSavedData = true
+          this.currentUser.todoId = todo.id
+        }, 
+        (msg) => console.log(msg))
+      }
+    },
+    getFormData() {
+      const query = new AV.Query('Todo')
+      
+      query.contains('id', this.currentUser.id)
+      query.find().then(todoData => {
+        console.log(todoData)
+        let data = todoData[0]
+        this.currentUser.hasSavedData = true
+        this.currentUser.todoId = data.id
+        this.$store.state.profile = JSON.parse(data.attributes.content.data)
+      }, 
+      () => console.log('获取数据失败'))
+
+      
     }
   }
 }
