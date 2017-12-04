@@ -1,6 +1,16 @@
 import Vuex from 'vuex'
 import Vue from 'vue'
+import AV from 'leancloud-storage'
+
 Vue.use(Vuex)
+
+const APP_ID = 'mvEzkoDQA3TSp6uTIbz81Mk0-gzGzoHsz'
+const APP_KEY = 'hV7aJ6xx0vtOh9FIvc3e8eei'
+
+AV.init({
+  appId: APP_ID, 
+  appKey: APP_KEY
+})
 
 const store = new Vuex.Store({
   state: {
@@ -136,6 +146,9 @@ const store = new Vuex.Store({
         default:
         return
       }
+    },
+    CHANGE_PROFILE(state, payload) {
+      state.profile = payload
     }
   }
 })

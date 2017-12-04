@@ -7,7 +7,6 @@
         <Preview></Preview>
       </div>
     </main>
-    <router-view/>
   </div>
 </template>
 

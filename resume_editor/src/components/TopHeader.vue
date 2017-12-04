@@ -8,15 +8,21 @@
         <el-button type="primary" round @click="openRegisterPop" v-if="!isLogined">注册</el-button>
         <el-button type="primary" round v-if="isLogined" key="logout" @click="logOut">退出登陆</el-button>
         <el-button type="primary" round v-if="isLogined" key="save" @click="saveFormData">保存</el-button>
+        <a :href="`preview.html?username=${currentUser.username}`" v-if="isLogined" target="blank">预览</a>
         <el-popover ref="shareLink"
                     placement="bottom"
-                    width="400"
+                    width="300"
                     trigger="click"
                     v-if="isLogined">
-          <input type="text" v-model="url" @focus="textSelected($event)" autofocus>
+          <!-- <label for="url">复制以下链接：</label>
+          <input type="text" v-model="url" @focus="textSelected($event)" autofocus id="url"> -->
+          <el-form  label="80px">
+            <el-form-item label="复制以下链接：">
+              <el-input v-model="url" @focus="textSelected($event)"></el-input>
+            </el-form-item>
+          </el-form>
         </el-popover>
         <el-button type="primary" round v-if="isLogined" key="shareLink" v-popover:shareLink>分享预览</el-button>
-        <a :href="`preview.html?username=${currentUser.username}`" v-if="isLogined" target="blank">预览</a>
       </div>
       <transition name="el-fade-in-linear">
         <div class="layer-mask" v-show="shouldShowPop">
@@ -44,13 +50,13 @@
                          :rules="rules1"
                          ref="loginForm">
                   <el-form-item label="账号：" prop="username">
-                    <el-input v-model="loginData.username"></el-input>
+                    <el-input v-model="loginData.username" placeholder="请输入账号"></el-input>
                   </el-form-item>
                   <el-form-item label="密码：" prop="password" auto-complete="off">
-                    <el-input type="password" v-model="loginData.password"></el-input>
+                    <el-input type="password" v-model="loginData.password" placeholder="请输入密码"></el-input>
                   </el-form-item>
                   <el-form-item>
-                    <el-button type="primary" @click="submitForm('loginForm')">提交</el-button>
+                    <el-button type="primary" @click="submitForm('loginForm', 'login')">登陆</el-button>
                     <el-button @click="resetForm('loginForm')">重置</el-button>
                   </el-form-item>
                 </el-form>
@@ -68,12 +74,21 @@
                   <el-button type="primary" @click="signUp">注册</el-button>
                   <el-button type="primary" native-type="reset">重置</el-button>
                 </form> -->
-                <el-form status-icon :label-position="labelPosition" label-width="60px">
-                  <el-form-item label="账号：">
-                    <el-input></el-input>
+                <el-form :label-position="labelPosition" 
+                         label-width="60px"
+                         :model="signupData"
+                         class="demo-ruleForm"
+                         :rules="rules1"
+                         ref="signupForm">
+                  <el-form-item label="账号：" prop="username">
+                    <el-input v-model="signupData.username" placeholder="6-8位，接受大小写字母、数字和下划线"></el-input>
                   </el-form-item>
-                  <el-form-item label="密码：">
-                    <el-input></el-input>
+                  <el-form-item label="密码：" prop="password">
+                    <el-input type="password" v-model="signupData.password" placeholder="6-8位，接受大小写字母、数字和下划线"></el-input>
+                  </el-form-item>
+                  <el-form-item>
+                    <el-button type="primary" @click="submitForm('signupForm', 'signup')">注册</el-button>
+                    <el-button @click="resetForm('signupForm')">重置</el-button>
                   </el-form-item>
                 </el-form>
               </el-tab-pane>
@@ -89,41 +104,31 @@
 <script>
 import AV from 'leancloud-storage'
 
-const APP_ID = 'mvEzkoDQA3TSp6uTIbz81Mk0-gzGzoHsz'
-const APP_KEY = 'hV7aJ6xx0vtOh9FIvc3e8eei'
-
-AV.init({
-  appId: APP_ID, 
-  appKey: APP_KEY
-})
-
 export default {
   data() {
     const checkUsername = (rule, value, callback) => {
       if (/^\s*$/.test(value)) {
-        return callback(new Error('输入不能为空！'))
+        return callback(new Error('账号不能为空'))
       } else if (/\s+/g.test(value)) {
-        return callback(new Error('输入中不能包含空字符'))
+        return callback(new Error('账号中不能包含空字符'))
       } else if (/^\w{6,8}$/i.test(value)) {
-        alert('登陆成功')
         return callback()
       }
 
-      return callback(new Error('输入格式出错'))
+      return callback(new Error('账号格式出错'))
 
     }
 
     const checkPassword = (rule, value, callback) => {
       if (/^\s*$/.test(value)) {
-        return callback(new Error('输入不能为空！'))
+        return callback(new Error('密码不能为空'))
       } else if (/\s+/g.test(value)) {
-        return callback(new Error('输入中不能包含空字符'))
+        return callback(new Error('密码中不能包含空字符'))
       } else if (/^\w{6,8}$/i.test(value)) {
-        alert('登陆成功')
         return callback()
       }
 
-      return callback(new Error('输入格式出错'))
+      return callback(new Error('密码格式出错'))
     }
 
     return {
@@ -131,7 +136,7 @@ export default {
       shouldShowPop: false,
       activeName: '',
       labelPosition: 'right',
-      formData: {
+      signupData: {
         username: '',
         password: ''
       },
@@ -168,32 +173,37 @@ export default {
     signUp() {
       const user = new AV.User()
 
-      user.setUsername(this.formData.username)
-      user.setPassword(this.formData.password)
+      user.setUsername(this.signupData.username)
+      user.setPassword(this.signupData.password)
       user.signUp().then(() => {
-        this.loginData.username = this.formData.username
-        this.loginData.password = this.formData.password
-        this.logIn(true)
-      })
+        this.loginData.username = this.signupData.username
+        this.loginData.password = this.signupData.password
+        this.showMessage('注册成功', 'success')
+        setTimeout(() => this.logIn(true), 1000)
+      }, () => this.showMessage('注册失败，网络连接出错', 'error'))
     },
     logIn(isFirstTimeLogin) {
       AV.User.logIn(this.loginData.username, this.loginData.password).then(usermessage => {
-                this.closePop()
-                this.currentUser = this.getCurrentUser()
-                this.isLogined = true
+                this.showMessage('登陆成功', 'success')
+                
+                setTimeout(() => {
+                  this.closePop()
+                  this.currentUser = this.getCurrentUser()
+                  this.isLogined = true
+                  this.setUrl()
 
-                if (isFirstTimeLogin) {
-                  return
-                }
+                  if (isFirstTimeLogin) {
+                    return
+                  }
 
-                this.getFormData()
-                this.setUrl()
+                  this.getFormData()
+                }, 1000)
+                
              },
-             error => console.log(error))
+             () => this.showMessage('登陆失败，账号或密码错误', 'error'))
     },
     logOut() {
       AV.User.logOut()
-      this.currentUser = null
       window.location.reload()
     },
     getCurrentUser() {
@@ -209,22 +219,23 @@ export default {
         const todo = AV.Object.createWithoutData('Todo', this.currentUser.todoId)
 
         todo.set({data})
-        todo.save().then(() => this.showSavedMessage('保存成功', 'success'), () => this.showSavedMessage('保存失败，网络连接出错', 'error'))
+        todo.save().then(() => this.showMessage('保存成功', 'success'), 
+          () => this.showMessage('保存失败，网络连接出错', 'error'))
       } else {
         const todo = new Todo()
         const acl = new AV.ACL()
 
         acl.setReadAccess(AV.User.current(), true)
         acl.setWriteAccess(AV.User.current(), true)
-        
+
         todo.setACL(acl)
         todo.set({data, username})
         todo.save().then(() => {
-          this.showSavedMessage('保存成功', 'success')
+          this.showMessage('保存成功', 'success')
           this.currentUser.hasSavedData = true
           this.currentUser.todoId = todo.id
         }, 
-        () => this.showSavedMessage('保存失败，网络连接出错', 'error'))
+        () => this.showMessage('保存失败，网络连接出错', 'error'))
       }
     },
     getFormData() {
@@ -233,42 +244,46 @@ export default {
       query.find().then(todoData => {
         console.log(todoData)
         let data = todoData[0]
-        this.currentUser.hasSavedData = true
+
+        this.currentUser.hasSavedData = todoData.length === 0 ? false : true
         this.currentUser.todoId = data.id
-        this.$store.state.profile = JSON.parse(data.attributes.data)
+        this.$store.commit('CHANGE_PROFILE', JSON.parse(data.attributes.data))
       }, 
       () => console.log('获取数据失败'))
     },
-    getInputData(value) {
-      console.log(value.trim())
-    },
     setUrl() {
       const host = window.location.host
+      const path = window.location.pathname.match(/\/\w*\/?/)[0]
       const username = this.currentUser.username
-      this.url = `${host}/preview.html?username=${username}`
+      this.url = `${host}${path}preview.html?username=${username}`
     },
-    showSavedMessage(message, type) {
+    showMessage(message, type) {
       this.$message({
-        message: message,
-        type: type,
+        message,
+        type,
         duration: 1000
       })
     },
     textSelected(event) {
-      console.log(arguments)
       event.target.select()
     },
-   submitForm(formName) {
+    submitForm(formName, formType) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          this.logIn(false)
+          if (formType === 'login') {
+            console.log('login')
+            this.logIn(false)
+          } else if (formType === 'signup') {
+            this.signUp()
+            console.log('signup')
+          }
         } else {
-          return false;
+          return false
         }
       });
     },
     resetForm(formName) {
-      this.$refs[formName].resetFields();
+      this.$refs[formName].resetFields()
     }
   }
 }
@@ -307,7 +322,7 @@ export default {
         text-align: center;
         box-sizing: border-box;
         outline: 0;
-        margin-left: 10px;
+        margin: 0 10px;
         transition: .1s;
         border-radius: 20px;
         padding: 12px 23px;
@@ -333,7 +348,7 @@ export default {
 
       .layer-pop {
         width: 400px;
-        padding: 18px;
+        padding: 18px 18px 0 18px;
         background-color: #fff;
         position: absolute;
         top: 50%;
@@ -349,7 +364,6 @@ export default {
       }
     }
   }
-
 }
 </style>
 
