@@ -56,5 +56,12 @@ export default {
 <style lang="less">
 .preview {
   width: 740px;
+  overflow: auto;
+
+  li,
+  p {
+    white-space: pre-line;
+    word-break: break-all;
+  }
 }
 </style>

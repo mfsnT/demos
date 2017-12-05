@@ -253,7 +253,7 @@ export default {
     },
     setUrl() {
       const host = window.location.host
-      const path = window.location.pathname.match(/\/\w*\/?/)[0]
+      const path = window.location.pathname.match(/\/?[\w/]*\/{1}/)[0]
       const username = this.currentUser.username
       this.url = `${host}${path}preview.html?username=${username}`
     },
