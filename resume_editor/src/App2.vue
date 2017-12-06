@@ -76,8 +76,7 @@ export default {
   background-color: #fff;
   width: 1000px;
   margin: 0 auto;
-  height: 100vh;
-  overflow: auto;
+  min-height: 100vh;
 
   li,
   p {
