@@ -1,5 +1,6 @@
 <template>
   <section class="editor">
+    <!-- 按钮 -->
     <ul class="tabs-btn">
       <li v-for="i in indexArr"
           @click="choose(i)"
@@ -9,8 +10,11 @@
         </svg>
       </li>
     </ul>
+
+    <!-- 编辑输入 -->
     <ul class="editor-panel">
       <li v-for="i in indexArr" v-show="currentIndex === i">
+          <!-- 个人信息 -->
           <el-form v-if="i === 0">
             <h2>个人信息</h2>
             <div class="input-group">
@@ -47,12 +51,17 @@
               </el-form-item>
             </div>
           </el-form>
-
+          
+          <!-- 工作情况 -->
           <el-form v-else-if="i === 1">
             <h2>工作经历</h2>
             <div class="input-group" v-for="(item, index) in profile.work">
               <el-form-item label="工作时间：">
                 <el-input v-model="item.time"></el-input>
+              </el-form-item>
+
+              <el-form-item label="公司名称：">
+                <el-input v-model="item.company"></el-input>
               </el-form-item>
 
               <el-form-item label="项目经历：">
@@ -63,11 +72,16 @@
             <el-button type="primary" round @click="addItem(i)">添加</el-button>
           </el-form>
           
+          <!-- 教育情况 -->
           <el-form v-else-if="i === 2">
             <h2>教育情况</h2>
             <div class="input-group" v-for="(item, index) in profile.education">
               <el-form-item label="教育时间：">
                 <el-input v-model="item.time"></el-input>
+              </el-form-item>
+
+              <el-form-item label="教育经历：">
+                <el-input v-model="item.school"></el-input>
               </el-form-item>
 
               <el-form-item label="教育经历：">
@@ -77,7 +91,8 @@
             </div>
             <el-button type="primary" round @click="addItem(i)">添加</el-button>
           </el-form>
-
+          
+          <!-- 爱好 -->
           <el-form v-else-if="i === 3">
             <h2>个人爱好</h2>
             <div class="input-group" v-for="(item, index) in profile.hobbies">
@@ -89,6 +104,7 @@
             <el-button type="primary" round @click="addItem(i)">添加</el-button>
           </el-form>
           
+          <!-- 获奖情况 -->
           <el-form v-else-if="i === 4">
             <h2>获奖情况</h2>
             <div class="input-group" v-for="(item, index) in profile.prize">
@@ -104,6 +120,7 @@
             <el-button type="primary" round @click="addItem(i)">添加</el-button>
           </el-form>
           
+          <!-- 联系方式 -->
           <el-form v-else>
             <h2>联系方式</h2>
             <div class="input-group">
@@ -134,9 +151,11 @@ export default {
     choose(i) {
       this.currentIndex = i
     },
+    // 增加项
     addItem(index) {
       this.$store.commit('ADD_ITEM', index)
     },
+    // 移除项
     removeItem(i1, i2) {
       this.$store.commit('REMOVE_ITEM', {i1, i2})
     }

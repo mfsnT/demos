@@ -6,6 +6,7 @@ import store from './vuex/store'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import './assets/reset.less'
+import './assets/preview.less'
 
 Vue.config.productionTip = false
 Vue.use(ElementUI)

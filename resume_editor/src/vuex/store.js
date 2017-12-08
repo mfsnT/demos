@@ -27,18 +27,22 @@ const store = new Vuex.Store({
       },
       work: [{
         time: '',
+        company: '',
         project: ''
       },
       {
         time: '',
+        company: '',
         project: ''
       }],
       education: [{
         time: '',
+        school: '',
         situation: ''
       },
       {
         time: '',
+        school: '',
         situation: ''
       }],
       hobbies: [{
@@ -62,6 +66,7 @@ const store = new Vuex.Store({
     }
   },
   getters: {
+    // 过滤数据
     getProfile(state) {
       let newObj = {}
       let profile = state.profile
@@ -95,14 +100,23 @@ const store = new Vuex.Store({
     }
   },
   mutations: {
+    // 添加项
     ADD_ITEM(state, payload) {
       switch (payload) {
         case 1:
-        state.profile.work.push({time: '', project: ''})
+        state.profile.work.push({
+          time: '',
+          company: '',
+          project: ''
+        })
         break
 
         case 2:
-        state.profile.education.push({time: '', situation: ''})
+        state.profile.education.push({
+          time: '', 
+          school: '',
+          situation: ''
+        })
         break
 
         case 3:
@@ -117,6 +131,7 @@ const store = new Vuex.Store({
         return
       }
     },
+    // 移除项
     REMOVE_ITEM(state, payload) {
       let {i1, i2} = payload
       let removeItem = (obj, index) => {
@@ -147,6 +162,7 @@ const store = new Vuex.Store({
         return
       }
     },
+    // 改变数据
     CHANGE_PROFILE(state, payload) {
       state.profile = payload
     }
